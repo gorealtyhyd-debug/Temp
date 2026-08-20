@@ -1,0 +1,428 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  PARENT
+  SCHOOL
+  COORDINATOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum RegistrationType {
+  INDIVIDUAL
+  SCHOOL
+}
+
+enum RegistrationStatus {
+  DRAFT
+  PENDING_PAYMENT
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  CREATED
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum OlympiadStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+  ARCHIVED
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+  UNPUBLISHED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String?   @unique
+  mobile       String?   @unique
+  passwordHash String?
+  name         String?
+  role         Role      @default(STUDENT)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  student      Student?
+  schoolUsers  SchoolUser[]
+  auditLogs    AuditLog[]
+  notifications Notification[]
+}
+
+model OtpChallenge {
+  id        String   @id @default(cuid())
+  mobile    String
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  consumed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([mobile])
+}
+
+model Student {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  fullName        String
+  dateOfBirth     DateTime?
+  gender          Gender?
+  classLevel      String?
+  section         String?
+  academicYear    String?
+  mobile          String?
+  parentName      String?
+  parentMobile    String?
+  email           String?
+  photoUrl        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  registrations   Registration[]
+  hallTickets     HallTicket[]
+  results         Result[]
+  certificates    Certificate[]
+}
+
+model School {
+  id           String   @id @default(cuid())
+  name         String
+  code         String?  @unique
+  address      String?
+  villageCity  String?
+  mandal       String?
+  district     String?
+  state        String?
+  pincode      String?
+  phone        String?
+  email        String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  users          SchoolUser[]
+  registrations  Registration[]
+}
+
+model SchoolUser {
+  id        String   @id @default(cuid())
+  schoolId  String
+  userId    String
+  role      Role     @default(COORDINATOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([schoolId, userId])
+}
+
+model Olympiad {
+  id                   String         @id @default(cuid())
+  slug                 String         @unique
+  code                 String         @unique
+  name                 String
+  shortName            String
+  tagline              String?
+  description          String
+  eligibleClasses      String
+  examPattern          String?
+  level1Date           DateTime?
+  level2Date           DateTime?
+  registrationDeadline DateTime?
+  feePaise             Int
+  discountPaise        Int            @default(0)
+  status               OlympiadStatus @default(DRAFT)
+  seoTitle             String?
+  seoDescription       String?
+  ogImageUrl           String?
+  syllabusUrl          String?
+  sortOrder            Int            @default(0)
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  registrationItems RegistrationItem[]
+  hallTickets       HallTicket[]
+  results           Result[]
+  certificates      Certificate[]
+}
+
+model Registration {
+  id                 String             @id @default(cuid())
+  registrationNumber String?            @unique
+  type               RegistrationType   @default(INDIVIDUAL)
+  status             RegistrationStatus @default(DRAFT)
+  studentId          String?
+  schoolId           String?
+  academicYear       String
+  subtotalPaise      Int                @default(0)
+  discountPaise      Int                @default(0)
+  totalPaise         Int                @default(0)
+  confirmedAt        DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  student  Student?           @relation(fields: [studentId], references: [id])
+  school   School?            @relation(fields: [schoolId], references: [id])
+  items    RegistrationItem[]
+  payments Payment[]
+}
+
+model RegistrationItem {
+  id             String   @id @default(cuid())
+  registrationId String
+  olympiadId     String
+  feePaise       Int
+  classLevel     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  registration Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  olympiad     Olympiad     @relation(fields: [olympiadId], references: [id])
+
+  @@unique([registrationId, olympiadId])
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  registrationId    String
+  amountPaise       Int
+  currency          String        @default("INR")
+  status            PaymentStatus @default(CREATED)
+  gateway           String        @default("razorpay")
+  gatewayOrderId    String?       @unique
+  gatewayPaymentId  String?
+  gatewaySignature  String?
+  method            String?
+  receiptUrl        String?
+  paidAt            DateTime?
+  failureReason     String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  registration Registration         @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  transactions PaymentTransaction[]
+}
+
+model PaymentTransaction {
+  id               String        @id @default(cuid())
+  paymentId        String
+  status           PaymentStatus
+  rawPayload       Json?
+  gatewayEventId   String?
+  createdAt        DateTime      @default(now())
+
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+}
+
+model ExamCentre {
+  id        String   @id @default(cuid())
+  name      String
+  code      String?  @unique
+  address   String
+  city      String?
+  district  String?
+  state     String?
+  pincode   String?
+  capacity  Int?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hallTickets HallTicket[]
+}
+
+model HallTicket {
+  id               String        @id @default(cuid())
+  hallTicketNumber String        @unique
+  registrationId   String?
+  studentId        String
+  olympiadId       String
+  examCentreId     String?
+  examDate         DateTime?
+  examTime         String?
+  examLevel        String?
+  qrToken          String        @unique
+  status           PublishStatus @default(DRAFT)
+  publishedAt      DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  student    Student     @relation(fields: [studentId], references: [id])
+  olympiad   Olympiad    @relation(fields: [olympiadId], references: [id])
+  examCentre ExamCentre? @relation(fields: [examCentreId], references: [id])
+}
+
+model Result {
+  id               String        @id @default(cuid())
+  studentId        String
+  olympiadId       String
+  registrationId   String?
+  marksObtained    Float
+  totalMarks       Float
+  percentage       Float
+  rank             Int?
+  qualification    String?
+  status           PublishStatus @default(DRAFT)
+  publishedAt      DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  student  Student  @relation(fields: [studentId], references: [id])
+  olympiad Olympiad @relation(fields: [olympiadId], references: [id])
+
+  @@index([studentId, olympiadId])
+}
+
+model Certificate {
+  id                String        @id @default(cuid())
+  certificateNumber String        @unique
+  studentId         String
+  olympiadId        String
+  academicYear      String
+  achievement       String
+  rank              Int?
+  qrToken           String        @unique
+  issueDate         DateTime      @default(now())
+  status            PublishStatus @default(DRAFT)
+  fileUrl           String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  student  Student  @relation(fields: [studentId], references: [id])
+  olympiad Olympiad @relation(fields: [olympiadId], references: [id])
+}
+
+model Announcement {
+  id          String        @id @default(cuid())
+  title       String
+  body        String
+  ctaLabel    String?
+  ctaHref     String?
+  isPinned    Boolean       @default(false)
+  status      PublishStatus @default(DRAFT)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Download {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  category    String?
+  fileUrl     String
+  status      PublishStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model GalleryItem {
+  id          String        @id @default(cuid())
+  title       String
+  caption     String?
+  imageUrl    String
+  category    String?
+  status      PublishStatus @default(DRAFT)
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Award {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  year        String?
+  imageUrl    String?
+  status      PublishStatus @default(DRAFT)
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Topper {
+  id          String        @id @default(cuid())
+  studentName String
+  olympiad    String
+  classLevel  String?
+  school      String?
+  rank        Int?
+  year        String?
+  photoUrl    String?
+  status      PublishStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Faq {
+  id          String        @id @default(cuid())
+  question    String
+  answer      String
+  category    String?
+  sortOrder   Int           @default(0)
+  status      PublishStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  body      String
+  href      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String?
+  entityId  String?
+  meta      Json?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
