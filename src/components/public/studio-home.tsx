@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { ArrowDown, ArrowUpRight, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 
 const programmes = [
   {
@@ -57,73 +56,67 @@ const programmes = [
 ];
 
 export function StudioHome() {
-  const stage = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const node = stage.current;
-    if (!node) return;
-    const move = (event: MouseEvent) => {
-      node.style.setProperty("--x", `${(event.clientX / window.innerWidth - 0.5) * 36}px`);
-      node.style.setProperty("--y", `${(event.clientY / window.innerHeight - 0.5) * 22}px`);
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, []);
-
   return (
-    <div className="ms-home" data-template="milkshake-timeframe">
-      <section className="ms-hero" ref={stage}>
-        <p className="ms-hero__tag">
-          <i /> SRF Olympiads 2026–27 · from srmoe.com
-        </p>
-        <h1>
-          <b>A (SERIOUS)</b>
-          Year
-          <em>in Olympiads</em>
-        </h1>
-        <p className="ms-hero__dek">
-          Srinivasa Ramanujan Foundation, Hyderabad. Separate paper for each class. Level-1 in the student’s own
-          school. Duplicate OMR sheet — like TSPSC.
-        </p>
-        <div className="ms-hero__cta">
-          <Link className="ms-pill ms-pill--dark" href="/register">
-            Join the cycle <ArrowUpRight size={18} />
-          </Link>
-          <a className="ms-textlink" href="#made">
-            Scroll to explore <ArrowDown size={16} />
-          </a>
+    <div className="ms-home">
+      <section className="ms-hero">
+        <div className="ms-hero__copy">
+          <p className="ms-hero__tag">Srinivasa Ramanujan Foundation · Hyderabad</p>
+          <h1>Official Olympiad examinations for the 2026–27 academic year.</h1>
+          <p className="ms-hero__dek">
+            Six programmes for Classes 1–10, with a separate paper for each class. Level-1 is held at the student’s
+            own school. Duplicate OMR sheets are issued, as with TSPSC.
+          </p>
+          <div className="ms-hero__cta">
+            <Link className="ms-pill ms-pill--dark" href="/register">
+              Student registration <ArrowRight size={16} />
+            </Link>
+            <Link className="ms-pill ms-pill--line" href="/school-registration">
+              School registration
+            </Link>
+          </div>
+          <ul className="ms-hero__facts">
+            <li>
+              <strong>29 Sep 2026</strong>
+              <span>School forms close</span>
+            </li>
+            <li>
+              <strong>04–07 Nov</strong>
+              <span>Level-1 examinations</span>
+            </li>
+            <li>
+              <strong>6 Dec 2026</strong>
+              <span>Level-2 · Sunday</span>
+            </li>
+            <li>
+              <strong>₹150</strong>
+              <span>Fee (₹150 − ₹30 = ₹120)</span>
+            </li>
+          </ul>
         </div>
-
-        <aside className="ms-float ms-float-a">
-          <small>NOV</small>
-          <strong>04</strong>
-          <span>SRMO · CVRSO</span>
-        </aside>
-        <aside className="ms-float ms-float-b">
-          <small>NOV</small>
-          <strong>05</strong>
-          <span>AKO</span>
-        </aside>
-        <aside className="ms-float ms-float-c">
-          <small>NOV</small>
-          <strong>06</strong>
-          <span>SEO · NSRMO</span>
-        </aside>
-        <aside className="ms-float ms-float-d">
-          <small>NOV</small>
-          <strong>07</strong>
-          <span>SCO</span>
-        </aside>
-        <aside className="ms-float ms-float-e">
-          <small>DEC</small>
-          <strong>06</strong>
-          <span>Level-2 Sunday</span>
-        </aside>
-        <aside className="ms-float ms-float-f">
-          <small>FEE</small>
-          <strong>150</strong>
-          <span>−30 = ₹120</span>
-        </aside>
+        <div className="ms-hero__media">
+          <Image src="/images/hero/library.jpg" alt="Students in an examination setting" fill sizes="50vw" priority />
+          <aside className="ms-schedule">
+            <p>Level-1 timetable</p>
+            <dl>
+              <div>
+                <dt>04 Nov</dt>
+                <dd>SRMO, CVRSO</dd>
+              </div>
+              <div>
+                <dt>05 Nov</dt>
+                <dd>AKO</dd>
+              </div>
+              <div>
+                <dt>06 Nov</dt>
+                <dd>SEO, NSRMO</dd>
+              </div>
+              <div>
+                <dt>07 Nov</dt>
+                <dd>SCO</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
       </section>
 
       <div className="ms-marquee" aria-label="Official SRF notice">
@@ -159,7 +152,7 @@ export function StudioHome() {
         <p className="ms-kicker">The things we’ve made</p>
         <h2>
           Latest
-          <em> programmes</em>
+          programmes
         </h2>
         <div className="ms-rail">
           {programmes.map((item, index) => (
@@ -188,7 +181,7 @@ export function StudioHome() {
             not received confirmation mail/SMS — please contact SRF.
           </p>
           <Link href="/olympiads">
-            Open catalogue <ArrowUpRight size={16} />
+            Open catalogue <ArrowRight size={16} />
           </Link>
         </article>
         <article>
@@ -200,7 +193,7 @@ export function StudioHome() {
             schools: no entrance fee for 25 members from each school.
           </p>
           <Link href="/school-registration">
-            Register a school <ArrowUpRight size={16} />
+            Register a school <ArrowRight size={16} />
           </Link>
         </article>
         <article>
@@ -212,7 +205,7 @@ export function StudioHome() {
             towards examination expenditure (₹150 − ₹30 = ₹120).
           </p>
           <Link href="/register">
-            Student registration <ArrowUpRight size={16} />
+            Student registration <ArrowRight size={16} />
           </Link>
         </article>
       </section>
@@ -221,9 +214,8 @@ export function StudioHome() {
         <div>
           <p className="ms-kicker">A book of memories</p>
           <h2>
-            Every
-            <br /> day
-            <br /> <em>counts.</em>
+            Every student
+            <br /> is recognised.
           </h2>
           <p>
             SRF is the one and only foundation that gives a duplicate OMR sheet like TSPSC. Level-2 exam centres will
@@ -245,12 +237,9 @@ export function StudioHome() {
       </section>
 
       <section className="ms-end">
-        <p className="ms-kicker">Join the revolution</p>
-        <h2>
-          Just
-          <em> slot it.</em>
-        </h2>
-        <p>For registration, hall tickets and confirmation messages — speak with the Hyderabad team.</p>
+        <p className="ms-kicker">Registrations open</p>
+        <h2>Begin the 2026–27 cycle.</h2>
+        <p>For registration, hall tickets and confirmation messages, contact the Hyderabad office.</p>
         <div className="ms-end__row">
           <Link className="ms-pill ms-pill--dark" href="/register">
             Register now
