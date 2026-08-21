@@ -59,6 +59,15 @@ export function StudioHome() {
   return (
     <div className="ms-home">
       <section className="ms-hero">
+        <Image
+          className="ms-hero__bg"
+          src="/images/hero/library.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+        />
+        <div className="ms-hero__shade" />
         <div className="ms-hero__copy">
           <p className="ms-hero__tag">Srinivasa Ramanujan Foundation · Hyderabad</p>
           <h1>Official Olympiad examinations for the 2026–27 academic year.</h1>
@@ -67,7 +76,7 @@ export function StudioHome() {
             own school. Duplicate OMR sheets are issued, as with TSPSC.
           </p>
           <div className="ms-hero__cta">
-            <Link className="ms-pill ms-pill--dark" href="/register">
+            <Link className="ms-pill ms-pill--gold" href="/register">
               Student registration <ArrowRight size={16} />
             </Link>
             <Link className="ms-pill ms-pill--line" href="/school-registration">
@@ -93,30 +102,27 @@ export function StudioHome() {
             </li>
           </ul>
         </div>
-        <div className="ms-hero__media">
-          <Image src="/images/hero/library.jpg" alt="Students in an examination setting" fill sizes="50vw" priority />
-          <aside className="ms-schedule">
-            <p>Level-1 timetable</p>
-            <dl>
-              <div>
-                <dt>04 Nov</dt>
-                <dd>SRMO, CVRSO</dd>
-              </div>
-              <div>
-                <dt>05 Nov</dt>
-                <dd>AKO</dd>
-              </div>
-              <div>
-                <dt>06 Nov</dt>
-                <dd>SEO, NSRMO</dd>
-              </div>
-              <div>
-                <dt>07 Nov</dt>
-                <dd>SCO</dd>
-              </div>
-            </dl>
-          </aside>
-        </div>
+        <aside className="ms-schedule">
+          <p>Level-1 timetable</p>
+          <dl>
+            <div>
+              <dt>04 Nov</dt>
+              <dd>SRMO, CVRSO</dd>
+            </div>
+            <div>
+              <dt>05 Nov</dt>
+              <dd>AKO</dd>
+            </div>
+            <div>
+              <dt>06 Nov</dt>
+              <dd>SEO, NSRMO</dd>
+            </div>
+            <div>
+              <dt>07 Nov</dt>
+              <dd>SCO</dd>
+            </div>
+          </dl>
+        </aside>
       </section>
 
       <div className="ms-marquee" aria-label="Official SRF notice">
