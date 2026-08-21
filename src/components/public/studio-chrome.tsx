@@ -30,7 +30,7 @@ export function StudioHeader() {
       <Link href="/" className="ms-nav__brand">
         <Image src="/brand/srf-logo.png" alt="SRF" width={120} height={86} priority />
         <span>
-          SRMOE
+          SRF
           <small>Hyderabad</small>
         </span>
       </Link>
@@ -66,7 +66,7 @@ export function StudioHeader() {
 export function StudioFooter() {
   return (
     <footer className="ms-foot">
-      <p className="ms-foot__giant">SRMOE</p>
+      <p className="ms-foot__giant">SRF</p>
       <div className="ms-foot__row">
         <div>
           <p>Srinivasa Ramanujan Foundation</p>
