@@ -1,13 +1,11 @@
-import { AnnouncementBar, Header } from "@/components/public/header";
-import { Footer } from "@/components/public/footer";
+import { PremiumFooter, PremiumHeader } from "@/components/public/premium-chrome";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <AnnouncementBar />
-      <Header />
-      <main>{children}</main>
-      <Footer />
+      <PremiumHeader />
+      {children}
+      <PremiumFooter />
     </>
   );
 }
