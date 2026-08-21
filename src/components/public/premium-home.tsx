@@ -15,23 +15,23 @@ import {
 } from "lucide-react";
 
 const programmes = [
-  { index: "01", title: "National Srinivasa Ramanujan", subtitle: "Mathematics Olympiad", note: "Number sense, patterns, and the pleasure of an elegant proof.", tone: "deep", mark: "∑", href: "/olympiads/nsrmo", photo: "/images/stock/study.jpg" },
-  { index: "02", title: "C.V. Raman", subtitle: "Science Olympiad", note: "A practical invitation to look closer at the world around us.", tone: "rust", mark: "λ", href: "/olympiads/cvrso", photo: "/images/stock/classroom.jpg" },
-  { index: "03", title: "State English", subtitle: "Olympiad", note: "Read with precision. Write with a point of view.", tone: "sage", mark: "A—Z", href: "/olympiads/state-english-olympiad", photo: "/images/stock/exam.jpg" },
-  { index: "04", title: "Abdul Kalam", subtitle: "General Knowledge Olympiad", note: "Reasoning, curiosity, and an imagination built for tomorrow.", tone: "ochre", mark: "?", href: "/olympiads/abdul-kalam-olympiad", photo: "/images/stock/books.jpg" },
-  { index: "05", title: "State Cyber", subtitle: "Olympiad", note: "Digital fluency, logic, and responsible problem solving.", tone: "blue", mark: "</>", href: "/olympiads/state-cyber-olympiad", photo: "/images/stock/desk.jpg" },
-  { index: "06", title: "Srinivasa Ramanujan", subtitle: "Mathematics Olympiad (SRMO)", note: "Class-wise papers that reward careful thinking, not haste.", tone: "plum", mark: "∴", href: "/olympiads/srmo", photo: "/images/stock/classroom-2.jpg" },
+  { index: "01", title: "National Srinivasa Ramanujan", subtitle: "Mathematics Olympiad", note: "Number sense, patterns, and the pleasure of an elegant proof.", href: "/olympiads/nsrmo", photo: "/images/stock/study.jpg" },
+  { index: "02", title: "C.V. Raman", subtitle: "Science Olympiad", note: "Look closer at the world around us.", href: "/olympiads/cvrso", photo: "/images/stock/classroom.jpg" },
+  { index: "03", title: "State English", subtitle: "Olympiad", note: "Read with precision. Write with a point of view.", href: "/olympiads/state-english-olympiad", photo: "/images/stock/exam.jpg" },
+  { index: "04", title: "Abdul Kalam", subtitle: "General Knowledge", note: "Curiosity built for tomorrow.", href: "/olympiads/abdul-kalam-olympiad", photo: "/images/stock/books.jpg" },
+  { index: "05", title: "State Cyber", subtitle: "Olympiad", note: "Logic and responsible problem solving.", href: "/olympiads/state-cyber-olympiad", photo: "/images/stock/desk.jpg" },
+  { index: "06", title: "Srinivasa Ramanujan", subtitle: "Mathematics Olympiad", note: "Class-wise papers that reward careful thinking.", href: "/olympiads/srmo", photo: "/images/stock/classroom-2.jpg" },
 ];
 
 const benefits = [
-  { number: "01", title: "A record of effort", body: "Every participant receives a participation certificate—a small, lasting marker of showing up to a harder question.", icon: BadgeCheck },
-  { number: "02", title: "See your thinking twice", body: "A duplicate OMR sheet lets students revisit their work, discuss choices, and learn from the attempt after the exam.", icon: FileCheck2 },
-  { number: "03", title: "Recognition that travels", body: "Awards and merit recognition give schools a meaningful way to celebrate careful thinking, not only the final score.", icon: Medal },
+  { number: "01", title: "A record of effort", body: "Every participant receives a participation certificate—a lasting marker of showing up to a harder question.", icon: BadgeCheck },
+  { number: "02", title: "See your thinking twice", body: "A duplicate OMR sheet lets students revisit their work and learn from the attempt after the exam.", icon: FileCheck2 },
+  { number: "03", title: "Recognition that travels", body: "Awards and merit recognition celebrate careful thinking, not only the final score.", icon: Medal },
 ];
 
 function OrbitMark() {
   return (
-    <span className="orbit-mark orbit-mark--small" aria-hidden="true">
+    <span className="orbit-mark" aria-hidden="true">
       <span className="orbit-mark__ring orbit-mark__ring--one" />
       <span className="orbit-mark__ring orbit-mark__ring--two" />
       <span className="orbit-mark__dot" />
@@ -43,6 +43,8 @@ export function PremiumHome() {
   return (
     <main id="top">
       <section className="srf-shell srf-hero">
+        <div className="srf-hero__glow" aria-hidden="true" />
+        <div className="srf-hero__glow srf-hero__glow--two" aria-hidden="true" />
         <div className="srf-hero__copy">
           <p className="eyebrow">Hyderabad · Official Olympiad Platform</p>
           <h1>
@@ -55,11 +57,11 @@ export function PremiumHome() {
             way.
           </h1>
           <p className="srf-hero__lead">
-            The Srinivasa Ramanujan Foundation turns the first difficult question into a lifelong
+            Srinivasa Ramanujan Foundation turns the first difficult question into a lifelong
             relationship with learning — through SRMO, CVRSO, SEO, AKO, NSRMO and SCO.
           </p>
           <div className="srf-hero__actions">
-            <Link className="srf-button srf-button--dark" href="/exam-details">
+            <Link className="srf-button srf-button--gold" href="/exam-details">
               Explore 2026–27 <ArrowDown size={16} />
             </Link>
             <Link className="srf-button srf-button--outline" href="/school-registration">
@@ -70,12 +72,14 @@ export function PremiumHome() {
             <span /> A serious invitation to be curious
           </div>
         </div>
-        <div className="srf-hero__art" aria-label="Abstract orbital mathematical artwork">
+        <div className="srf-hero__panel">
+          <Image src="/images/hero/library.jpg" alt="Students in an academic hall" fill sizes="50vw" priority />
+          <div className="srf-hero__panel-shade" />
           <div className="srf-hero__equation">
             a² + b² = c²
             <small>every answer begins with looking</small>
           </div>
-          <div className="srf-orbit-stage">
+          <div className="srf-orbit-stage" aria-hidden="true">
             <div className="srf-orbit-stage__center">
               <strong>SRF</strong>
               <small>learn · question · grow</small>
@@ -83,14 +87,23 @@ export function PremiumHome() {
             <i className="srf-orbit-stage__point srf-orbit-stage__point--a" />
             <i className="srf-orbit-stage__point srf-orbit-stage__point--b" />
             <i className="srf-orbit-stage__point srf-orbit-stage__point--c" />
-            <span className="srf-orbit-stage__caption">
-              An open field
-              <br />
-              of possibility
-            </span>
           </div>
         </div>
       </section>
+
+      <div className="srf-shell srf-stats">
+        {[
+          ["06", "Olympiad doors"],
+          ["02", "Exam levels"],
+          ["₹150", "Standard fee"],
+          ["29 Sep", "Registration closes"],
+        ].map(([value, label]) => (
+          <article className="srf-stat" key={label}>
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </article>
+        ))}
+      </div>
 
       <div className="srf-marquee" aria-label="SRF programme highlights">
         <div className="srf-marquee__track">
@@ -107,7 +120,7 @@ export function PremiumHome() {
         </div>
       </div>
 
-      <section className="srf-section srf-section--sand" id="olympiads">
+      <section className="srf-section srf-section--deep" id="olympiads">
         <div className="srf-shell">
           <div className="srf-section__header">
             <div>
@@ -119,29 +132,25 @@ export function PremiumHome() {
               </h2>
             </div>
             <p className="srf-section__intro">
-              A carefully structured set of Olympiads for school students—designed to reward the
-              attempt, not just the answer.
+              A structured set of Olympiads for school students—designed to reward the attempt, not just the answer.
             </p>
           </div>
-          <div className="srf-olympiad-grid">
+          <div className="srf-bento">
             {programmes.map((item) => (
-              <Link href={item.href} className={`srf-olympiad-card srf-olympiad-card--${item.tone}`} key={item.index}>
-                <span className="srf-olympiad-card__photo">
-                  <Image src={item.photo} alt="" fill sizes="33vw" />
+              <Link href={item.href} className="srf-bento-card" key={item.index}>
+                <span className="srf-bento-card__photo">
+                  <Image src={item.photo} alt="" fill sizes="40vw" />
                 </span>
-                <span className="srf-olympiad-card__index">{item.index} / 06</span>
+                <span className="srf-bento-card__index">{item.index} / 06</span>
                 <h3>
                   {item.title}
                   <span>{item.subtitle}</span>
                 </h3>
                 <p>{item.note}</p>
-                <span className="srf-olympiad-card__mark" aria-hidden="true">
-                  {item.mark}
-                </span>
               </Link>
             ))}
           </div>
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 28 }}>
             <Link className="srf-button srf-button--outline" href="/exam-details">
               View the exam rhythm <ArrowRight size={16} />
             </Link>
@@ -152,9 +161,7 @@ export function PremiumHome() {
       <section className="srf-section srf-section--ink" id="calendar">
         <div className="srf-shell srf-calendar">
           <div className="srf-calendar__copy">
-            <p className="eyebrow" style={{ color: "#c9a227" }}>
-              Mark the margins
-            </p>
+            <p className="eyebrow">Mark the margins</p>
             <h2 className="srf-section-title">
               The right
               <br />
@@ -163,8 +170,7 @@ export function PremiumHome() {
               <em>at the right time.</em>
             </h2>
             <p className="srf-calendar__note">
-              Level 1 is the centre of the Olympiads. Students who qualify move on to a focused
-              Level 2 experience.
+              Level 1 is the centre of the Olympiads. Students who qualify move on to a focused Level 2 experience.
             </p>
             <Link className="srf-button srf-button--gold" href="/school-registration" style={{ marginTop: 27 }}>
               Secure a school place <ArrowUpRight size={16} />
@@ -227,8 +233,8 @@ export function PremiumHome() {
             <span className="srf-quote-mark">“</span>
             <p>Ramanujan saw patterns where others saw noise. We build the room where a student can do the same.</p>
             <Image
-              src="/images/hero/library.jpg"
-              alt="Students studying in a library"
+              src="/images/hero/campus.jpg"
+              alt="Academic campus"
               width={640}
               height={420}
               className="srf-story-photo"
@@ -282,7 +288,7 @@ export function PremiumHome() {
                 ["/images/stock/award.jpg", "Academic awards"],
                 ["/images/gallery/event-1.jpg", "SRF ceremony"],
                 ["/images/stock/graduation.jpg", "Achievement"],
-                ["/images/hero/campus.jpg", "Campus"],
+                ["/images/hero/library.jpg", "Library"],
               ].map(([src, alt]) => (
                 <figure key={src}>
                   <Image src={src} alt={alt} fill sizes="40vw" />
@@ -297,9 +303,7 @@ export function PremiumHome() {
         <div className="srf-shell">
           <div className="srf-section__header">
             <div>
-              <p className="eyebrow" style={{ color: "#c9a227" }}>
-                Beyond the paper
-              </p>
+              <p className="eyebrow">Beyond the paper</p>
               <h2 className="srf-section-title">
                 A little proof
                 <br />
@@ -323,7 +327,7 @@ export function PremiumHome() {
           </div>
           <div className="srf-recognition">
             <Trophy size={18} color="#c9a227" />
-            <strong>Recognition strip</strong>
+            <strong>Recognition</strong>
             <span>·</span>
             <span>Merit awards</span>
             <span>·</span>
@@ -334,7 +338,7 @@ export function PremiumHome() {
         </div>
       </section>
 
-      <section className="srf-section srf-section--sand" id="pathways">
+      <section className="srf-section srf-section--deep" id="pathways">
         <div className="srf-shell srf-pathways">
           <div className="srf-pathways__intro">
             <p className="eyebrow">Choose your place in the room</p>
@@ -347,7 +351,7 @@ export function PremiumHome() {
               Whether you are opening a school door, looking for the next challenge, or helping a whole room take
               part—we would like to hear from you.
             </p>
-            <Link className="srf-button srf-button--dark" href="/contact">
+            <Link className="srf-button srf-button--gold" href="/contact">
               Talk to SRF <Phone size={15} />
             </Link>
           </div>
@@ -413,7 +417,7 @@ export function PremiumHome() {
               9948481729
             </a>
             <br />
-            <Link className="srf-button srf-button--dark" href="/contact" style={{ marginTop: 23 }}>
+            <Link className="srf-button srf-button--gold" href="/contact" style={{ marginTop: 23 }}>
               Start a conversation <ArrowUpRight size={16} />
             </Link>
           </div>

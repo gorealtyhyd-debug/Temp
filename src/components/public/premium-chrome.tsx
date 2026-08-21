@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ChevronRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronRight, Menu, X } from "lucide-react";
 
 const nav = [
   { href: "/olympiads", label: "The Olympiads" },
@@ -19,9 +19,9 @@ export function PremiumHeader() {
 
   return (
     <>
-      <header className="srf-shell srf-header">
+      <header className="srf-header">
         <Link className="srf-brand" href="/" aria-label="SRF home">
-          <Image src="/brand/srf-logo.png" alt="SRF logo" width={126} height={90} className="h-auto w-[63px]" priority />
+          <Image src="/brand/srf-logo.png" alt="SRF logo" width={126} height={90} className="h-auto w-[52px]" priority />
           <span className="srf-brand__words">
             Srinivasa Ramanujan
             <br />
@@ -35,6 +35,9 @@ export function PremiumHeader() {
             </Link>
           ))}
         </nav>
+        <Link className="srf-header__cta" href="/register">
+          Register <ArrowUpRight size={14} />
+        </Link>
         <button className="srf-menu-trigger" type="button" onClick={() => setOpen((v) => !v)} aria-label={open ? "Close menu" : "Open menu"}>
           {open ? <X size={18} /> : <Menu size={18} />}
         </button>
@@ -45,6 +48,9 @@ export function PremiumHeader() {
                 {item.label}
               </Link>
             ))}
+            <Link href="/register" onClick={() => setOpen(false)}>
+              Register now
+            </Link>
           </nav>
         )}
       </header>
@@ -69,7 +75,7 @@ export function PremiumFooter() {
       <div className="srf-shell">
         <div className="srf-footer__top">
           <Link className="srf-brand" href="/" aria-label="SRF home">
-            <Image src="/brand/srf-logo.png" alt="SRF logo" width={126} height={90} className="h-auto w-[63px]" />
+            <Image src="/brand/srf-logo.png" alt="SRF logo" width={126} height={90} className="h-auto w-[52px]" />
             <span className="srf-brand__words">
               Srinivasa Ramanujan
               <br />

@@ -1,44 +1,50 @@
 @import "tailwindcss";
 
 :root {
-  --black: #0b0b0b;
+  --navy-950: #021024;
+  --navy-900: #052659;
+  --navy-800: #1a3d73;
+  --steel: #5483b3;
+  --mist: #7da0ca;
+  --ice: #c1e8ff;
   --gold: #c9a227;
-  --gold-dark: #9a7410;
-  --gold-light: #f0e2a8;
-  --beige: #f6f1e7;
-  --beige-deep: #ebe3d3;
+  --gold-dark: #a67c00;
+  --gold-light: #e8d48b;
+  --black: #021024;
+  --beige: #052659;
+  --beige-deep: #1a3d73;
   --white: #ffffff;
-  --off-white: #fbfaf6;
-  --soft-gray: #e4ddd0;
-  --charcoal: #171717;
-  --ink: #2c2c2c;
-  --muted: #6f6a60;
-  --success: #15803d;
-  --error: #b91c1c;
-  --background: var(--beige);
-  --foreground: var(--black);
-  --radius: 1rem;
+  --off-white: #052659;
+  --soft-gray: #5483b3;
+  --charcoal: #ffffff;
+  --ink: #c1e8ff;
+  --muted: #7da0ca;
+  --success: #3dd68c;
+  --error: #ff7b7b;
+  --background: var(--navy-950);
+  --foreground: var(--white);
+  --radius: 1.25rem;
 }
 
 @theme inline {
-  --color-srf-black: var(--black);
+  --color-srf-black: var(--navy-950);
   --color-srf-gold: var(--gold);
   --color-srf-gold-dark: var(--gold-dark);
   --color-srf-gold-light: var(--gold-light);
-  --color-srf-beige: var(--beige);
-  --color-srf-beige-deep: var(--beige-deep);
+  --color-srf-beige: var(--navy-900);
+  --color-srf-beige-deep: var(--navy-800);
   --color-srf-white: var(--white);
-  --color-srf-off-white: var(--off-white);
-  --color-srf-soft-gray: var(--soft-gray);
-  --color-srf-charcoal: var(--charcoal);
-  --color-srf-ink: var(--ink);
-  --color-srf-muted: var(--muted);
+  --color-srf-off-white: var(--navy-900);
+  --color-srf-soft-gray: var(--steel);
+  --color-srf-charcoal: var(--white);
+  --color-srf-ink: var(--ice);
+  --color-srf-muted: var(--mist);
   --color-srf-success: var(--success);
   --color-srf-error: var(--error);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-display: var(--font-playfair);
-  --font-sans: var(--font-manrope);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-outfit);
   --radius-lg: var(--radius);
 }
 
@@ -48,20 +54,32 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--gold) 40%, white);
-  color: var(--black);
+  background: var(--gold);
+  color: var(--navy-950);
+}
+
+@layer utilities {
+  .text-srf-black,
+  .text-srf-charcoal {
+    color: #ffffff;
+  }
+
+  .bg-white {
+    background-color: rgba(5, 38, 89, 0.72);
+    color: #ffffff;
+  }
 }
 
 .hero-media {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: var(--black);
+  background: var(--navy-950);
   min-height: 92vh;
 }
 
@@ -71,53 +89,32 @@ body {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(105deg, rgba(8, 8, 8, 0.88) 8%, rgba(8, 8, 8, 0.62) 46%, rgba(8, 8, 8, 0.28) 100%),
-    linear-gradient(to top, rgba(8, 8, 8, 0.75), transparent 42%);
-}
-
-.surface-noise {
-  background-image:
-    radial-gradient(circle at 12% 18%, rgba(201, 162, 39, 0.08), transparent 28%),
-    radial-gradient(circle at 88% 0%, rgba(201, 162, 39, 0.06), transparent 24%);
-}
-
-.glass-panel {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(14px);
+    linear-gradient(105deg, rgba(2, 16, 36, 0.92) 8%, rgba(5, 38, 89, 0.55) 48%, rgba(2, 16, 36, 0.35) 100%),
+    linear-gradient(to top, rgba(2, 16, 36, 0.88), transparent 42%);
 }
 
 .premium-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--gold) 22%, var(--soft-gray));
-  background: linear-gradient(180deg, #fff, #faf7f0);
-  box-shadow: 0 12px 34px rgba(11, 11, 11, 0.07);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.3s ease;
-}
-
-.premium-card::after {
-  content: "";
-  position: absolute;
-  inset: auto -30% -40% auto;
-  width: 180px;
-  height: 180px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(201, 162, 39, 0.18), transparent 70%);
-  pointer-events: none;
+  border: 1px solid rgba(125, 160, 202, 0.28);
+  background:
+    linear-gradient(180deg, rgba(26, 61, 115, 0.55), rgba(5, 38, 89, 0.72));
+  box-shadow: 0 18px 50px rgba(2, 16, 36, 0.35);
+  color: #fff;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.3s ease;
 }
 
 .premium-card:hover {
-  transform: translateY(-10px) scale(1.01);
+  transform: translateY(-10px);
   border-color: var(--gold);
   box-shadow:
-    0 28px 60px rgba(11, 11, 11, 0.14),
-    0 0 0 1px rgba(201, 162, 39, 0.25);
+    0 28px 70px rgba(2, 16, 36, 0.45),
+    0 0 0 1px rgba(201, 162, 39, 0.35);
 }
 
 .gold-frame {
-  border: 1px solid color-mix(in srgb, var(--gold) 50%, transparent);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  box-shadow: 0 20px 50px rgba(2, 16, 36, 0.4);
 }
 
 .section-pad {
@@ -126,56 +123,14 @@ body {
 
 .eyebrow {
   font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.2em;
+  font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
 }
 
 .display {
-  font-family: var(--font-playfair), Georgia, serif;
-  letter-spacing: -0.02em;
+  font-family: var(--font-fraunces), Georgia, serif;
+  letter-spacing: -0.03em;
   line-height: 1.05;
 }
-
-.scroll-row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(280px, 340px);
-  gap: 1.25rem;
-  overflow-x: auto;
-  padding-bottom: 0.75rem;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-}
-
-.scroll-row > * {
-  scroll-snap-align: start;
-}
-
-.marquee {
-  display: flex;
-  gap: 2rem;
-  width: max-content;
-  animation: marquee 28s linear infinite;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(22px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes draw-line {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-.animate-fade-up { animation: fade-up 0.85s ease-out both; }
-.animate-fade-up-delay { animation: fade-up 0.9s ease-out 0.12s both; }
-.animate-fade-up-delay-2 { animation: fade-up 0.95s ease-out 0.24s both; }
-.animate-draw-line { transform-origin: left center; animation: draw-line 1s ease-out 0.3s both; }
