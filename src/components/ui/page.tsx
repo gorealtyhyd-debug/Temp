@@ -39,7 +39,7 @@ export function PageHero({
   description?: string;
 }) {
   return (
-    <div className="border-b border-srf-soft-gray bg-srf-off-white">
+    <div className="border-b border-srf-soft-gray bg-srf-beige">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-16">
         {eyebrow && (
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-srf-gold">{eyebrow}</p>

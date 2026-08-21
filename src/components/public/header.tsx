@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -12,7 +13,7 @@ const nav = [
   { href: "/exam-details", label: "Exam Details" },
   { href: "/results", label: "Results" },
   { href: "/awards", label: "Awards" },
-  { href: "/downloads", label: "Downloads" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
@@ -47,40 +48,45 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b transition-colors duration-300",
+        "sticky top-0 z-50 border-b backdrop-blur-md transition-colors duration-300",
         scrolled
-          ? "border-srf-charcoal bg-srf-black text-white"
-          : "border-srf-soft-gray bg-white text-srf-black",
+          ? "border-white/10 bg-srf-black/95 text-white"
+          : "border-srf-soft-gray/80 bg-srf-beige/90 text-srf-black",
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 md:px-6">
         <Link href="/" className="flex items-center gap-3" aria-label="SRF home">
-          <span
-            className={cn(
-              "flex h-10 w-10 items-center justify-center rounded-md border font-display text-lg font-bold",
-              scrolled ? "border-srf-gold text-srf-gold" : "border-srf-black text-srf-black",
-            )}
-          >
-            SRF
-          </span>
+          <Image
+            src="/brand/srf-mark.svg"
+            alt="SRF logo"
+            width={48}
+            height={48}
+            className="h-11 w-11 rounded-lg"
+            priority
+          />
           <span className="hidden leading-tight sm:block">
             <span className="block font-display text-lg font-semibold tracking-tight">
               {siteConfig.shortName}
             </span>
-            <span className={cn("block text-[11px] uppercase tracking-[0.16em]", scrolled ? "text-white/70" : "text-srf-muted")}>
-              Olympiad Platform
+            <span
+              className={cn(
+                "block text-[10px] uppercase tracking-[0.18em]",
+                scrolled ? "text-srf-gold" : "text-srf-muted",
+              )}
+            >
+              Olympiad Platform · 1729
             </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-5 xl:flex" aria-label="Primary">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
                 "relative text-sm font-medium transition after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-srf-gold after:transition-all hover:after:w-full",
-                scrolled ? "text-white/90 hover:text-white" : "text-srf-charcoal hover:text-srf-black",
+                scrolled ? "text-white/90 hover:text-white" : "text-srf-ink hover:text-srf-black",
               )}
             >
               {item.label}
@@ -93,7 +99,7 @@ export function Header() {
             href="/student-login"
             className={cn(
               buttonVariants({ variant: scrolled ? "secondary" : "outline", size: "sm" }),
-              scrolled && "border-white/40 text-white hover:border-srf-gold",
+              scrolled && "border-white/30 text-white hover:border-srf-gold",
             )}
           >
             Student Login
@@ -107,7 +113,7 @@ export function Header() {
           type="button"
           variant={scrolled ? "secondary" : "outline"}
           size="sm"
-          className="lg:hidden"
+          className="xl:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
@@ -118,13 +124,13 @@ export function Header() {
       </div>
 
       {open && (
-        <div id="mobile-nav" className="border-t border-srf-soft-gray bg-white px-4 py-4 lg:hidden">
+        <div id="mobile-nav" className="border-t border-srf-soft-gray bg-srf-beige px-4 py-4 xl:hidden">
           <nav className="flex flex-col gap-3" aria-label="Mobile">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-srf-charcoal hover:bg-srf-off-white hover:text-srf-black"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-srf-ink hover:bg-white"
                 onClick={() => setOpen(false)}
               >
                 {item.label}

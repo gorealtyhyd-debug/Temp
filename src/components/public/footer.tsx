@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 
@@ -55,13 +56,13 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_2fr]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-md border border-srf-gold font-display text-xl font-bold text-srf-gold">
-                SRF
-              </span>
-              <div>
-                <p className="font-display text-2xl">{siteConfig.shortName}</p>
-                <p className="text-sm text-white/60">{siteConfig.tagline}</p>
-              </div>
+              <Image
+                src="/brand/srf-logo.svg"
+                alt="Srinivasa Ramanujan Foundation logo"
+                width={220}
+                height={96}
+                className="h-auto w-52 rounded-md bg-white p-2"
+              />
             </div>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
               {siteConfig.legalName}, Hyderabad — a premium national-level Olympiad and examination
