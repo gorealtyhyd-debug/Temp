@@ -43,7 +43,7 @@
   --color-srf-error: var(--error);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-display: var(--font-fraunces);
+  --font-display: var(--font-syne);
   --font-sans: var(--font-outfit);
   --radius-lg: var(--radius);
 }
@@ -130,7 +130,7 @@ body {
 }
 
 .display {
-  font-family: var(--font-fraunces), Georgia, serif;
+  font-family: var(--font-syne), sans-serif;
   letter-spacing: -0.03em;
   line-height: 1.05;
 }

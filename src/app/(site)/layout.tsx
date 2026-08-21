@@ -4,7 +4,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <PremiumHeader />
-      {children}
+      <div className="srf-frame">{children}</div>
       <PremiumFooter />
     </>
   );
