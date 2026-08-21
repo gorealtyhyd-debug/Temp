@@ -59,14 +59,7 @@ export function StudioHome() {
   return (
     <div className="ms-home">
       <section className="ms-hero">
-        <Image
-          className="ms-hero__bg"
-          src="/images/hero/library.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          priority
-        />
+        <img className="ms-hero__bg" src="/images/hero/library.jpg" alt="" />
         <div className="ms-hero__shade" />
         <div className="ms-hero__copy">
           <p className="ms-hero__tag">Srinivasa Ramanujan Foundation · Hyderabad</p>
@@ -243,17 +236,21 @@ export function StudioHome() {
       </section>
 
       <section className="ms-end">
-        <p className="ms-kicker">Registrations open</p>
-        <h2>Begin the 2026–27 cycle.</h2>
-        <p>For registration, hall tickets and confirmation messages, contact the Hyderabad office.</p>
-        <div className="ms-end__row">
-          <Link className="ms-pill ms-pill--dark" href="/register">
-            Register now
-          </Link>
-          <a href="tel:9948481729">
-            <Phone size={16} /> 9948481729
-          </a>
-          <a href="tel:9908313951">9908313951</a>
+        <img className="ms-end__bg" src="/images/hero/library.jpg" alt="" />
+        <div className="ms-end__shade" />
+        <div className="ms-end__inner">
+          <p className="ms-kicker">Registrations open</p>
+          <h2>Begin the 2026–27 cycle.</h2>
+          <p>For registration, hall tickets and confirmation messages, contact the Hyderabad office.</p>
+          <div className="ms-end__row">
+            <Link className="ms-pill ms-pill--gold" href="/register">
+              Register now
+            </Link>
+            <a href="tel:9948481729">
+              <Phone size={16} /> 9948481729
+            </a>
+            <a href="tel:9908313951">9908313951</a>
+          </div>
         </div>
       </section>
     </div>
