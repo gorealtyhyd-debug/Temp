@@ -4,6 +4,8 @@ Premium Next.js platform for **Srinivasa Ramanujan Foundation (SRF)** Olympiads.
 
 Stack: **Next.js (App Router) + TypeScript + Tailwind CSS + PostgreSQL + Prisma** with SEO-first architecture and gateway-verified payments.
 
+This project uses a **local PostgreSQL install only**. Docker is not required.
+
 ## Features
 
 - Black + gold institutional design system
@@ -14,11 +16,45 @@ Stack: **Next.js (App Router) + TypeScript + Tailwind CSS + PostgreSQL + Prisma*
 - Hall ticket & certificate verification pages
 - XML sitemap, robots.txt, JSON-LD, canonical metadata
 
-## Quick start
+## Prerequisites
 
-```bash
-cp .env.example .env
-docker compose up -d
+1. Node.js 20+
+2. PostgreSQL installed locally (Windows: [postgresql.org/download/windows](https://www.postgresql.org/download/windows/))
+3. Remember the password you set for the `postgres` user during install
+
+## Quick start (Windows)
+
+### 1. Create the database
+
+Open **pgAdmin** or **SQL Shell (psql)** and run:
+
+```sql
+CREATE DATABASE srf_olympiad;
+```
+
+### 2. Configure `.env`
+
+```powershell
+copy .env.example .env
+```
+
+Edit `.env` and set your real Postgres password:
+
+```env
+DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/srf_olympiad?schema=public"
+```
+
+Examples:
+
+```env
+DATABASE_URL="postgresql://postgres:mypassword@localhost:5432/srf_olympiad?schema=public"
+```
+
+If your Postgres username is not `postgres`, replace that part too.
+
+### 3. Install and push schema
+
+```powershell
 npm install
 npx prisma generate
 npx prisma db push
@@ -28,46 +64,25 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Database setup (important)
+## Troubleshooting
 
-Default `DATABASE_URL` expects:
+### `P1000: Authentication failed`
 
-```text
-postgresql://srf:srf_secure_password@localhost:5432/srf_olympiad?schema=public
-```
+Postgres is running, but the username/password in `DATABASE_URL` is wrong.
 
-**Option A — Docker (recommended)**
+- Use the password you created when installing PostgreSQL
+- Default Windows user is usually `postgres`
+- Do **not** use `srf` / `srf_secure_password` — those were old Docker-only credentials
 
-```bash
-docker compose up -d
-npx prisma db push
-```
+### `P1001` / connection refused
 
-This creates user `srf`, password `srf_secure_password`, database `srf_olympiad`.
+PostgreSQL service is not running. Start it from Windows Services (`services.msc`) — look for **postgresql-x64-...** — or restart from pgAdmin.
 
-If port `5432` is already used by a local Postgres install, either stop that service or change the Docker port mapping (for example `"5433:5432"`) and update `DATABASE_URL` to use `localhost:5433`.
-
-**Option B — Existing local Postgres (common on Windows)**
-
-1. Open `.env` and set credentials that already work on your machine, for example:
-
-```env
-DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/srf_olympiad?schema=public"
-```
-
-2. Create the database (psql, pgAdmin, or SQL):
+### Database does not exist
 
 ```sql
 CREATE DATABASE srf_olympiad;
 ```
-
-3. Then run:
-
-```bash
-npx prisma db push
-```
-
-**Error `P1000: Authentication failed`** means Postgres is reachable, but the username/password in `DATABASE_URL` do not match your server. Fix the URL — do not keep using `srf` / `srf_secure_password` unless that role actually exists.
 
 ## Environment
 
