@@ -16,6 +16,7 @@ export type OlympiadRecord = {
   seoTitle: string;
   seoDescription: string;
   highlights: string[];
+  image: string;
 };
 
 /**
@@ -29,6 +30,7 @@ export const olympiads: OlympiadRecord[] = [
     code: "SRMO",
     name: "Srinivasa Ramanujan Mathematics Olympiad",
     shortName: "SRMO",
+    image: "/images/olympiads/srmo.png",
     tagline: "Mathematics excellence for every class",
     description:
       "The flagship mathematics Olympiad of Srinivasa Ramanujan Foundation. Students solve a class-wise paper covering Mathematics and Reasoning across Level-1 and Level-2.",
@@ -50,6 +52,7 @@ export const olympiads: OlympiadRecord[] = [
     code: "CVRSO",
     name: "C. V. Raman Science Olympiad",
     shortName: "CVRSO",
+    image: "/images/olympiads/cvrso.png",
     tagline: "Science and general knowledge challenge",
     description:
       "A science-focused Olympiad honouring C. V. Raman. Students attempt Science and G.K. questions designed to strengthen conceptual understanding.",
@@ -71,6 +74,7 @@ export const olympiads: OlympiadRecord[] = [
     code: "SEO",
     name: "State English Olympiad",
     shortName: "SEO",
+    image: "/images/olympiads/seo.png",
     tagline: "Language, communication and current affairs",
     description:
       "Build English proficiency through a structured Olympiad covering English language skills with G.K. and current affairs.",
@@ -92,6 +96,7 @@ export const olympiads: OlympiadRecord[] = [
     code: "AKO",
     name: "Abdul Kalam Olympiad",
     shortName: "AKO",
+    image: "/images/olympiads/ako.png",
     tagline: "Multi-disciplinary academic challenge",
     description:
       "A balanced multi-subject Olympiad inspired by Dr. A. P. J. Abdul Kalam covering Maths, Science, English, G.K. and Reasoning.",
@@ -113,6 +118,7 @@ export const olympiads: OlympiadRecord[] = [
     code: "NSRMO",
     name: "National Srinivasa Ramanujan Mathematics Olympiad",
     shortName: "NSRMO",
+    image: "/images/olympiads/nsrmo.png",
     tagline: "National mathematics competition",
     description:
       "The national edition of SRF’s mathematics Olympiad for students seeking broader recognition beyond the state-level SRMO.",
@@ -134,6 +140,7 @@ export const olympiads: OlympiadRecord[] = [
     code: "SCO",
     name: "State Cyber Olympiad",
     shortName: "SCO",
+    image: "/images/olympiads/sco.png",
     tagline: "Computer literacy and logical reasoning",
     description:
       "A cyber and computer awareness Olympiad covering Computer fundamentals with Reasoning and Telugu components as conducted by SRF.",
