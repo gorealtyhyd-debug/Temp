@@ -6,7 +6,7 @@ export default function Page() {
       <h1 className="font-display text-4xl text-srf-black">Payments</h1>
       <p className="mt-2 text-srf-muted">Gateway-verified payment history and receipts.</p>
       <div className="mt-8">
-        <EmptyState title="Payments" description="Connected to PostgreSQL + Prisma once authentication and records are live. Demo shell ready for integration." />
+        <EmptyState title="Payments" description="Connected to SQL Server + Prisma once authentication and records are live. Demo shell ready for integration." />
       </div>
     </div>
   );
