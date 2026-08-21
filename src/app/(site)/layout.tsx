@@ -1,11 +1,11 @@
-import { PremiumFooter, PremiumHeader } from "@/components/public/premium-chrome";
+import { StudioFooter, StudioHeader } from "@/components/public/studio-chrome";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <PremiumHeader />
-      <div className="srf-frame">{children}</div>
-      <PremiumFooter />
+      <StudioHeader />
+      <div className="ms-frame">{children}</div>
+      <StudioFooter />
     </>
   );
 }

@@ -3,7 +3,7 @@ import { Instrument_Serif, Outfit, Syne } from "next/font/google";
 import { buildMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
-import "./srf-premium.css";
+import "./studio.css";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${syne.variable} ${instrument.variable} ${outfit.variable} h-full`}>
-      <body className="srf-page min-h-full antialiased">
+      <body className="srf-page min-h-full antialiased" data-ui="studio-v3">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

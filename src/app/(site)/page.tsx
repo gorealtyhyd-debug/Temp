@@ -1,4 +1,4 @@
-import { PremiumHome } from "@/components/public/premium-home";
+import { StudioHome } from "@/components/public/studio-home";
 import { faqJsonLd } from "@/lib/seo";
 import { faqs } from "@/lib/content/olympiads";
 
@@ -9,7 +9,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faqs)) }}
       />
-      <PremiumHome />
+      <StudioHome />
     </>
   );
 }

@@ -21,8 +21,8 @@
   --muted: #7da0ca;
   --success: #3dd68c;
   --error: #ff7b7b;
-  --background: var(--navy-950);
-  --foreground: var(--white);
+  --background: #f4fbff;
+  --foreground: #021024;
   --radius: 1.25rem;
 }
 
@@ -52,8 +52,8 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #f4fbff;
+  color: #021024;
   font-family: var(--font-outfit), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
 }
