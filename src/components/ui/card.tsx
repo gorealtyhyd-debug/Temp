@@ -8,7 +8,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "premium-card rounded-[var(--radius-lg)] text-srf-black",
+        "premium-card rounded-[var(--radius-lg)] text-white",
         className,
       )}
       {...props}

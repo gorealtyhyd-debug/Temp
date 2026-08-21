@@ -1,17 +1,27 @@
 import type { Metadata } from "next";
-import { Manrope, Playfair_Display } from "next/font/google";
+import { Instrument_Serif, Outfit, Syne } from "next/font/google";
 import { buildMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
+import "./studio.css";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   display: "swap",
 });
@@ -27,8 +37,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${playfair.variable} ${manrope.variable} h-full`}>
-      <body className="min-h-full bg-white font-sans text-srf-black antialiased">
+    <html lang="en" className={`${syne.variable} ${instrument.variable} ${outfit.variable} h-full`}>
+      <body className="srf-page min-h-full antialiased" data-ui="studio-v3">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

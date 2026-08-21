@@ -52,8 +52,8 @@ export function PortalShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-srf-off-white lg:grid lg:grid-cols-[260px_1fr]">
-      <aside className="bg-srf-black text-white">
+    <div className="min-h-screen bg-[#021024] lg:grid lg:grid-cols-[260px_1fr]">
+      <aside className="bg-[#052659] text-white">
         <div className="border-b border-white/10 px-5 py-5">
           <Link href="/" className="font-display text-2xl text-srf-gold">
             SRF

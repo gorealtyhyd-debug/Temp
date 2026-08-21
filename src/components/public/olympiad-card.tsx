@@ -1,67 +1,65 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { OlympiadRecord } from "@/lib/content/olympiads";
 import { cn, formatDate, formatInrFromPaise } from "@/lib/utils";
-import { Badge, Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/card";
 
 type OlympiadCardProps = {
   olympiad: OlympiadRecord;
   selectable?: boolean;
   selected?: boolean;
   onToggle?: () => void;
+  cover?: string;
 };
 
-export function OlympiadCard({ olympiad, selectable, selected, onToggle }: OlympiadCardProps) {
+export function OlympiadCard({
+  olympiad,
+  selectable,
+  selected,
+  onToggle,
+  cover,
+}: OlympiadCardProps) {
+  const image = cover || olympiad.image;
+
   const body = (
     <>
-      <div className="relative aspect-[16/9] overflow-hidden bg-srf-black">
+      <div className="relative aspect-[16/10] overflow-hidden">
         <Image
-          src={olympiad.image}
-          alt={`${olympiad.name} emblem`}
+          src={image}
+          alt={`${olympiad.name} visual`}
           fill
-          className="object-cover transition duration-500 group-hover:scale-105"
+          className="object-cover transition duration-700 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-srf-black/70 via-transparent to-transparent" />
-        <div className="absolute left-4 top-4 flex items-center gap-2">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute left-4 top-4 flex gap-2">
           <Badge variant="dark">{olympiad.code}</Badge>
-          <Badge variant="gold">{olympiad.status === "PUBLISHED" ? "Open" : olympiad.status}</Badge>
+          <Badge variant="gold">Open</Badge>
         </div>
+        <p className="absolute bottom-4 left-4 right-4 font-display text-2xl text-white">
+          {olympiad.shortName}
+        </p>
       </div>
 
-      <CardContent className="relative">
-        <div className="mb-3 h-px w-12 bg-srf-gold" />
-        <h3 className="font-display text-2xl leading-tight text-srf-black">{olympiad.shortName}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-srf-muted">{olympiad.tagline}</p>
-
-        <dl className="mt-5 space-y-2.5 text-sm">
-          <div className="flex justify-between gap-3">
-            <dt className="text-srf-muted">Eligible</dt>
-            <dd className="max-w-[60%] text-right font-medium text-srf-ink">{olympiad.eligibleClasses}</dd>
+      <div className="relative space-y-4 p-5">
+        <p className="text-sm leading-relaxed text-srf-muted">{olympiad.tagline}</p>
+        <div className="grid grid-cols-2 gap-3 text-sm">
+          <div className="rounded-xl bg-[#021024]/50 px-3 py-2">
+            <p className="text-[11px] uppercase tracking-wider text-[#7da0ca]">Level-1</p>
+            <p className="mt-1 font-semibold text-white">{formatDate(olympiad.level1Date)}</p>
           </div>
-          <div className="flex justify-between gap-3">
-            <dt className="text-srf-muted">Level-1</dt>
-            <dd className="font-medium text-srf-ink">{formatDate(olympiad.level1Date)}</dd>
+          <div className="rounded-xl bg-[#021024]/50 px-3 py-2">
+            <p className="text-[11px] uppercase tracking-wider text-srf-muted">Fee</p>
+            <p className="mt-1 font-display text-xl text-srf-gold">{formatInrFromPaise(olympiad.feePaise)}</p>
           </div>
-          <div className="flex justify-between gap-3">
-            <dt className="text-srf-muted">Deadline</dt>
-            <dd className="font-medium text-srf-ink">{formatDate(olympiad.registrationDeadline)}</dd>
-          </div>
-          <div className="flex justify-between gap-3 border-t border-srf-soft-gray pt-3">
-            <dt className="text-srf-muted">Fee</dt>
-            <dd className="font-display text-2xl text-srf-gold">{formatInrFromPaise(olympiad.feePaise)}</dd>
-          </div>
-        </dl>
-
-        {!selectable && (
-          <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-srf-black">
-            View details <ArrowUpRight className="h-4 w-4 text-srf-gold" />
+        </div>
+        {!selectable ? (
+          <span className="inline-flex items-center gap-2 text-sm font-bold text-white">
+            View details <ArrowRight className="h-4 w-4 text-srf-gold" />
           </span>
-        )}
-
-        {selectable && (
-          <div className="mt-5 flex items-center justify-between text-xs font-bold uppercase tracking-[0.16em]">
+        ) : (
+          <div className="flex items-center justify-between text-xs font-bold uppercase tracking-[0.14em]">
             <span className="text-srf-muted">{selected ? "Selected" : "Tap to select"}</span>
             <span
               className={cn(
@@ -73,26 +71,23 @@ export function OlympiadCard({ olympiad, selectable, selected, onToggle }: Olymp
             </span>
           </div>
         )}
-      </CardContent>
+      </div>
     </>
   );
 
-  const className = cn(
-    "group block overflow-hidden p-0",
-    selected && "border-srf-gold shadow-[0_18px_40px_rgba(201,162,39,0.2)]",
-  );
+  const className = cn("premium-card group block overflow-hidden p-0", selected && "border-srf-gold");
 
   if (selectable) {
     return (
       <button type="button" onClick={onToggle} className="w-full text-left">
-        <Card className={className}>{body}</Card>
+        <article className={className}>{body}</article>
       </button>
     );
   }
 
   return (
     <Link href={`/olympiads/${olympiad.slug}`}>
-      <Card className={className}>{body}</Card>
+      <article className={className}>{body}</article>
     </Link>
   );
 }

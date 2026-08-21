@@ -2,9 +2,9 @@
 
 Premium Next.js platform for **Srinivasa Ramanujan Foundation (SRF)** Olympiads.
 
-Stack: **Next.js (App Router) + TypeScript + Tailwind CSS + PostgreSQL + Prisma** with SEO-first architecture and gateway-verified payments.
+Stack: **Next.js (App Router) + TypeScript + Tailwind CSS + SQL Server + Prisma** with SEO-first architecture and gateway-verified payments.
 
-This project uses a **local PostgreSQL install only**. Docker is not required.
+This project uses a **local Microsoft SQL Server install only**. Docker is not required.
 
 ## Features
 
@@ -19,14 +19,17 @@ This project uses a **local PostgreSQL install only**. Docker is not required.
 ## Prerequisites
 
 1. Node.js 20+
-2. PostgreSQL installed locally (Windows: [postgresql.org/download/windows](https://www.postgresql.org/download/windows/))
-3. Remember the password you set for the `postgres` user during install
+2. SQL Server Developer or Express installed locally (Windows: [SQL Server downloads](https://www.microsoft.com/sql-server/sql-server-downloads))
+3. SQL Server Management Studio (SSMS) or Azure Data Studio
+4. A **SQL login** (for example `sa`) and its password — Prisma 7 does **not** support Windows Authentication
+
+Enable **SQL Server and Windows Authentication mode** (mixed mode) in SQL Server properties, then restart the SQL Server service. Enable TCP/IP in SQL Server Configuration Manager if you connect on port `1433`.
 
 ## Quick start (Windows)
 
 ### 1. Create the database
 
-Open **pgAdmin** or **SQL Shell (psql)** and run:
+In **SSMS**, connect to your instance and run:
 
 ```sql
 CREATE DATABASE srf_olympiad;
@@ -38,19 +41,23 @@ CREATE DATABASE srf_olympiad;
 copy .env.example .env
 ```
 
-Edit `.env` and set your real Postgres password:
+Edit `.env` and set your real SQL login password:
 
 ```env
-DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/srf_olympiad?schema=public"
+DATABASE_URL="sqlserver://localhost:1433;database=srf_olympiad;user=sa;password=YOUR_PASSWORD;encrypt=true;trustServerCertificate=true"
 ```
 
-Examples:
+SQL Server Express (named instance) example:
 
 ```env
-DATABASE_URL="postgresql://postgres:mypassword@localhost:5432/srf_olympiad?schema=public"
+DATABASE_URL="sqlserver://localhost\\SQLEXPRESS;database=srf_olympiad;user=sa;password=YOUR_PASSWORD;encrypt=true;trustServerCertificate=true"
 ```
 
-If your Postgres username is not `postgres`, replace that part too.
+If the password contains special characters (`@`, `#`, `;`, etc.), wrap it in curly braces:
+
+```env
+DATABASE_URL="sqlserver://localhost:1433;database=srf_olympiad;user=sa;password={MyP@ssw0rd};encrypt=true;trustServerCertificate=true"
+```
 
 ### 3. Install and push schema
 
@@ -66,23 +73,31 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Troubleshooting
 
-### `P1000: Authentication failed`
+### `P1000` / login failed
 
-Postgres is running, but the username/password in `DATABASE_URL` is wrong.
+SQL Server is running, but the username/password in `DATABASE_URL` is wrong, or mixed-mode authentication is off.
 
-- Use the password you created when installing PostgreSQL
-- Default Windows user is usually `postgres`
-- Do **not** use `srf` / `srf_secure_password` — those were old Docker-only credentials
+- Use a SQL login (`sa` or a user you created), not a Windows account
+- Enable mixed mode: SSMS → server Properties → Security → **SQL Server and Windows Authentication mode**
+- Restart the **SQL Server** service after changing authentication mode
 
 ### `P1001` / connection refused
 
-PostgreSQL service is not running. Start it from Windows Services (`services.msc`) — look for **postgresql-x64-...** — or restart from pgAdmin.
+SQL Server is not listening on the host/port in `DATABASE_URL`.
+
+- Start **SQL Server** from Windows Services (`services.msc`)
+- For Express, try `localhost\\SQLEXPRESS` instead of `localhost:1433`
+- Enable TCP/IP in SQL Server Configuration Manager and confirm the TCP port (often `1433`)
 
 ### Database does not exist
 
 ```sql
 CREATE DATABASE srf_olympiad;
 ```
+
+### Certificate / TLS errors
+
+Keep `encrypt=true;trustServerCertificate=true` for a local self-signed SQL Server certificate.
 
 ## Environment
 
@@ -97,4 +112,4 @@ Merchant settlement (including organizational UPI) must be configured in the pay
 
 ## Content source
 
-Olympiad dates, fees and organisational details are aligned with the existing site [srmoe.com](http://www.srmoe.com) and designed to move fully into PostgreSQL via the admin CMS.
+Olympiad dates, fees and organisational details are aligned with the existing site [srmoe.com](http://www.srmoe.com) and designed to move fully into SQL Server via the admin CMS.

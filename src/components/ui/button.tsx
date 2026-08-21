@@ -8,15 +8,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-srf-gold text-srf-black hover:bg-srf-gold-dark hover:-translate-y-0.5 shadow-[0_8px_20px_rgba(201,162,39,0.25)]",
+          "rounded-full bg-srf-gold text-[#021024] hover:bg-srf-gold-dark hover:-translate-y-0.5 shadow-[0_8px_20px_rgba(201,162,39,0.28)]",
         secondary:
-          "border border-srf-gold bg-transparent text-srf-gold hover:bg-srf-gold hover:text-srf-black",
+          "rounded-full border border-srf-gold bg-transparent text-srf-gold hover:bg-srf-gold hover:text-[#021024]",
         black:
-          "bg-srf-black text-white hover:bg-srf-charcoal",
+          "rounded-full bg-[#021024] text-white hover:bg-[#052659] border border-white/15",
         outline:
-          "border border-srf-black text-srf-black hover:bg-srf-black hover:text-white",
-        ghost: "text-srf-black hover:text-srf-gold",
-        soft: "bg-srf-off-white text-srf-black border border-srf-soft-gray hover:border-srf-gold",
+          "rounded-full border border-srf-gold/60 text-srf-gold hover:bg-srf-gold hover:text-[#021024]",
+        ghost: "text-white hover:text-srf-gold",
+        soft: "rounded-full bg-[#052659] text-white border border-[#5483b3]/40 hover:border-srf-gold",
       },
       size: {
         sm: "h-9 px-3",

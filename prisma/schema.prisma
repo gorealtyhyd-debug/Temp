@@ -4,57 +4,11 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlserver"
 }
 
-enum Role {
-  STUDENT
-  PARENT
-  SCHOOL
-  COORDINATOR
-  ADMIN
-  SUPER_ADMIN
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-
-enum RegistrationType {
-  INDIVIDUAL
-  SCHOOL
-}
-
-enum RegistrationStatus {
-  DRAFT
-  PENDING_PAYMENT
-  CONFIRMED
-  CANCELLED
-}
-
-enum PaymentStatus {
-  CREATED
-  PENDING
-  SUCCESS
-  FAILED
-  CANCELLED
-  REFUNDED
-}
-
-enum OlympiadStatus {
-  DRAFT
-  PUBLISHED
-  CLOSED
-  ARCHIVED
-}
-
-enum PublishStatus {
-  DRAFT
-  PUBLISHED
-  UNPUBLISHED
-}
+// SQL Server has no Prisma enums or Json type. Status/role values are stored as NVARCHAR.
+// Canonical values live in src/lib/db-enums.ts.
 
 model User {
   id           String    @id @default(cuid())
@@ -62,7 +16,7 @@ model User {
   mobile       String?   @unique
   passwordHash String?
   name         String?
-  role         Role      @default(STUDENT)
+  role         String    @default("STUDENT") @db.NVarChar(32)
   isActive     Boolean   @default(true)
   lastLoginAt  DateTime?
   createdAt    DateTime  @default(now())
@@ -91,7 +45,7 @@ model Student {
   userId          String    @unique
   fullName        String
   dateOfBirth     DateTime?
-  gender          Gender?
+  gender          String?   @db.NVarChar(16)
   classLevel      String?
   section         String?
   academicYear    String?
@@ -114,7 +68,7 @@ model School {
   id           String   @id @default(cuid())
   name         String
   code         String?  @unique
-  address      String?
+  address      String?  @db.NVarChar(Max)
   villageCity  String?
   mandal       String?
   district     String?
@@ -134,7 +88,7 @@ model SchoolUser {
   id        String   @id @default(cuid())
   schoolId  String
   userId    String
-  role      Role     @default(COORDINATOR)
+  role      String   @default("COORDINATOR") @db.NVarChar(32)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -151,17 +105,17 @@ model Olympiad {
   name                 String
   shortName            String
   tagline              String?
-  description          String
+  description          String          @db.NVarChar(Max)
   eligibleClasses      String
-  examPattern          String?
+  examPattern          String?         @db.NVarChar(Max)
   level1Date           DateTime?
   level2Date           DateTime?
   registrationDeadline DateTime?
   feePaise             Int
   discountPaise        Int            @default(0)
-  status               OlympiadStatus @default(DRAFT)
+  status               String         @default("DRAFT") @db.NVarChar(32)
   seoTitle             String?
-  seoDescription       String?
+  seoDescription       String?         @db.NVarChar(Max)
   ogImageUrl           String?
   syllabusUrl          String?
   sortOrder            Int            @default(0)
@@ -177,8 +131,8 @@ model Olympiad {
 model Registration {
   id                 String             @id @default(cuid())
   registrationNumber String?            @unique
-  type               RegistrationType   @default(INDIVIDUAL)
-  status             RegistrationStatus @default(DRAFT)
+  type               String             @default("INDIVIDUAL") @db.NVarChar(32)
+  status             String             @default("DRAFT") @db.NVarChar(32)
   studentId          String?
   schoolId           String?
   academicYear       String
@@ -215,7 +169,7 @@ model Payment {
   registrationId    String
   amountPaise       Int
   currency          String        @default("INR")
-  status            PaymentStatus @default(CREATED)
+  status            String        @default("CREATED") @db.NVarChar(32)
   gateway           String        @default("razorpay")
   gatewayOrderId    String?       @unique
   gatewayPaymentId  String?
@@ -234,8 +188,8 @@ model Payment {
 model PaymentTransaction {
   id               String        @id @default(cuid())
   paymentId        String
-  status           PaymentStatus
-  rawPayload       Json?
+  status           String        @db.NVarChar(32)
+  rawPayload       String?       @db.NVarChar(Max)
   gatewayEventId   String?
   createdAt        DateTime      @default(now())
 
@@ -246,7 +200,7 @@ model ExamCentre {
   id        String   @id @default(cuid())
   name      String
   code      String?  @unique
-  address   String
+  address   String   @db.NVarChar(Max)
   city      String?
   district  String?
   state     String?
@@ -270,7 +224,7 @@ model HallTicket {
   examTime         String?
   examLevel        String?
   qrToken          String        @unique
-  status           PublishStatus @default(DRAFT)
+  status           String        @default("DRAFT") @db.NVarChar(32)
   publishedAt      DateTime?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
@@ -290,7 +244,7 @@ model Result {
   percentage       Float
   rank             Int?
   qualification    String?
-  status           PublishStatus @default(DRAFT)
+  status           String        @default("DRAFT") @db.NVarChar(32)
   publishedAt      DateTime?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
@@ -311,7 +265,7 @@ model Certificate {
   rank              Int?
   qrToken           String        @unique
   issueDate         DateTime      @default(now())
-  status            PublishStatus @default(DRAFT)
+  status            String        @default("DRAFT") @db.NVarChar(32)
   fileUrl           String?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
@@ -323,11 +277,11 @@ model Certificate {
 model Announcement {
   id          String        @id @default(cuid())
   title       String
-  body        String
+  body        String        @db.NVarChar(Max)
   ctaLabel    String?
   ctaHref     String?
   isPinned    Boolean       @default(false)
-  status      PublishStatus @default(DRAFT)
+  status      String        @default("DRAFT") @db.NVarChar(32)
   startsAt    DateTime?
   endsAt      DateTime?
   createdAt   DateTime      @default(now())
@@ -337,10 +291,10 @@ model Announcement {
 model Download {
   id          String        @id @default(cuid())
   title       String
-  description String?
+  description String?       @db.NVarChar(Max)
   category    String?
   fileUrl     String
-  status      PublishStatus @default(DRAFT)
+  status      String        @default("DRAFT") @db.NVarChar(32)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -348,10 +302,10 @@ model Download {
 model GalleryItem {
   id          String        @id @default(cuid())
   title       String
-  caption     String?
+  caption     String?       @db.NVarChar(Max)
   imageUrl    String
   category    String?
-  status      PublishStatus @default(DRAFT)
+  status      String        @default("DRAFT") @db.NVarChar(32)
   sortOrder   Int           @default(0)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -360,10 +314,10 @@ model GalleryItem {
 model Award {
   id          String        @id @default(cuid())
   title       String
-  description String?
+  description String?       @db.NVarChar(Max)
   year        String?
   imageUrl    String?
-  status      PublishStatus @default(DRAFT)
+  status      String        @default("DRAFT") @db.NVarChar(32)
   sortOrder   Int           @default(0)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -378,7 +332,7 @@ model Topper {
   rank        Int?
   year        String?
   photoUrl    String?
-  status      PublishStatus @default(DRAFT)
+  status      String        @default("DRAFT") @db.NVarChar(32)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -386,10 +340,10 @@ model Topper {
 model Faq {
   id          String        @id @default(cuid())
   question    String
-  answer      String
+  answer      String        @db.NVarChar(Max)
   category    String?
   sortOrder   Int           @default(0)
-  status      PublishStatus @default(DRAFT)
+  status      String        @default("DRAFT") @db.NVarChar(32)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -398,7 +352,7 @@ model Notification {
   id        String   @id @default(cuid())
   userId    String
   title     String
-  body      String
+  body      String   @db.NVarChar(Max)
   href      String?
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -412,7 +366,7 @@ model AuditLog {
   action    String
   entity    String?
   entityId  String?
-  meta      Json?
+  meta      String?  @db.NVarChar(Max)
   ip        String?
   createdAt DateTime @default(now())
 
@@ -422,7 +376,7 @@ model AuditLog {
 model SiteSetting {
   id        String   @id @default(cuid())
   key       String   @unique
-  value     Json
+  value     String   @db.NVarChar(Max)
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }

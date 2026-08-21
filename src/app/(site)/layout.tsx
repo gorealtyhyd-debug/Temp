@@ -1,13 +1,11 @@
-import { AnnouncementBar, Header } from "@/components/public/header";
-import { Footer } from "@/components/public/footer";
+import { StudioFooter, StudioHeader } from "@/components/public/studio-chrome";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <AnnouncementBar />
-      <Header />
-      <main>{children}</main>
-      <Footer />
+      <StudioHeader />
+      <div className="ms-frame">{children}</div>
+      <StudioFooter />
     </>
   );
 }

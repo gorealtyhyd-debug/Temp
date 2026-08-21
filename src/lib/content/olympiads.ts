@@ -1,3 +1,5 @@
+import type { OlympiadStatus } from "@/lib/db-enums";
+
 export type OlympiadRecord = {
   slug: string;
   code: string;
@@ -12,7 +14,7 @@ export type OlympiadRecord = {
   registrationDeadline: string;
   feePaise: number;
   discountPaise: number;
-  status: "PUBLISHED" | "CLOSED" | "DRAFT";
+  status: OlympiadStatus;
   seoTitle: string;
   seoDescription: string;
   highlights: string[];
@@ -22,7 +24,7 @@ export type OlympiadRecord = {
 /**
  * Canonical Olympiad catalogue for 2026–27.
  * Sourced from the existing SRF website (srmoe.com) and intended to be
- * managed dynamically via Admin → Olympiads once PostgreSQL is connected.
+ * managed dynamically via Admin → Olympiads once SQL Server is connected.
  */
 export const olympiads: OlympiadRecord[] = [
   {
